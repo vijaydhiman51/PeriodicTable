@@ -14,12 +14,23 @@
       </div>
 
       <div class="navbar-center">
-        <input type="text" placeholder="Search..." />
+        <div id="searchContainer" class="navbar-searchContainer">
+          <input
+            type="text"
+            id="searchBar"
+            placeholder="Search Element by Name of Symbol..."
+            oninput="debouncedSearch()"
+            style="width: 100%"
+          />
+          <ul id="resultList" class="navbar-search-list"></ul>
+        </div>
       </div>
 
       <div class="navbar-right">
-        <span style="margin-top: 7px;" id="username"></span>
-        <button id="LoginBtn" data-state="Login" onclick="onLoginClick()">Login</button>
+        <span style="margin-top: 7px" id="username"></span>
+        <button id="LoginBtn" data-state="Login" onclick="onLoginClick()">
+          Login
+        </button>
       </div>
     </div>
 

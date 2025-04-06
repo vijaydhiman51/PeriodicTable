@@ -14,7 +14,7 @@ body * {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #1B1212;
+  background-color: #1b1212;
   padding: 10px 20px;
   color: white;
   position: fixed;
@@ -65,13 +65,36 @@ body * {
   background-color: #777;
 }
 
+.navbar-searchContainer {
+  position: relative;
+  width: 500px;
+}
+
+.navbar-search-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background: #302e2e;
+  border: 1px solid #ccc;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  z-index: 1000;
+  display: none;
+  max-height: 200px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
 /*main table*/
 
 .pt-table-container {
   display: flex;
   height: 100vh;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
 }
 
 .pt-element {
