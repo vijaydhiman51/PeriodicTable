@@ -1,17 +1,21 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const userRoutes = require("./routes/user.routes");
+const loginRoutes = require("./routes/login.routes");
 const tableRoutes = require("./routes/periodicTable.routes");
 
 app.use(express.json());
 
-app.use(cors());
-/* app.use(cors({
-  origin: 'http://127.0.0.1:3000'
-})); */
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow all origins (that are not undefined — like Postman or curl)
+    if (!origin) return callback(null, false);
+    return callback(null, origin);
+  },
+  credentials: true
+}));
 
-app.use("/api/users", userRoutes);
+app.use("/api/login", loginRoutes);
 app.use("/api/periodicTable", tableRoutes);
 
 const PORT = process.env.PORT || 3000;
