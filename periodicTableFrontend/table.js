@@ -33,6 +33,8 @@ function initApp() {
     const loginbtn = $("#LoginBtn");
     loginbtn.attr("data-state", "Logout");
     loginbtn.text("Logout");
+    $("#feedbackBtn").css("display", "none");
+    $("#showfeedbackBtn").css("display", "block");
     $("#username").html(loggedinUser);
   }
 }
@@ -138,6 +140,8 @@ function onLoginClick() {
     btn.attr("data-state", "Login");
     btn.text("Login");
     $("#username").html("");
+    $("#showfeedbackBtn").css("display", "none");
+    $("#feedbackBtn").css("display", "block");
   } else {
     const popupWidth = 500;
     const popupHeight = 400;
@@ -163,8 +167,38 @@ function onLoginClick() {
         localStorage.setItem("usernamePT", event.data.username);
         btn.attr("data-state", "Logout");
         btn.text("Logout");
+        $("#feedbackBtn").css("display", "none");
+        $("#showfeedbackBtn").css("display", "block");
         $("#username").html(event.data.username);
       }
     });
   }
+}
+
+function openFeedBackpopup(event) {
+  const popupWidth = 850;
+  const popupHeight = 600;
+  const left = window.screen.width / 2 - popupWidth / 2;
+  const top = window.screen.height / 2 - popupHeight / 2;
+
+  window.open(
+    "/periodicTableFrontend/feedback.html",
+    "FeedbackPopup",
+    `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=no,scrollbars=yes`
+  );
+}
+
+function showAllFeedbacks(event) {
+  const popupWidth = 1000;
+  const popupHeight = 800;
+  const left = window.screen.width / 2 - popupWidth / 2;
+  const top = window.screen.height / 2 - popupHeight / 2;
+  const token = localStorage.getItem("authToken");
+  const authToken = token ? JSON.parse(token).token : "";
+
+  const feedbacktable = window.open(
+    `/periodicTableFrontend/feedbackTable.html?token=${authToken}`,
+    "FeedbackPopup",
+    `width=${popupWidth},height=${popupHeight},top=${top},left=${left},resizable=no,scrollbars=yes`
+  );
 }

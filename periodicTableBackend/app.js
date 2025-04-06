@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 const loginRoutes = require("./routes/login.routes");
 const tableRoutes = require("./routes/periodicTable.routes");
+const feedbackRoutes = require("./routes/feedback.routes");
 
 app.use(express.json());
 
@@ -17,6 +18,7 @@ app.use(cors({
 
 app.use("/api/login", loginRoutes);
 app.use("/api/periodicTable", tableRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

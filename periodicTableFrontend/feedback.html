@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedback</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh
+      }
+
+      #feedbackPopup {
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 700px;
+        position: relative;
+        z-index: 1001;
+      }
+
+      h3 {
+        margin-top: 0;
+        color: #333;
+        text-align: center;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+
+      input:focus,
+      textarea:focus {
+        border-color: #007bff;
+        outline: none;
+      }
+
+      .button-container {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:first-child {
+        background-color: #007bff;
+        color: #fff;
+      }
+
+      button:first-child:hover {
+        background-color: #0056b3;
+      }
+
+      button:last-child {
+        background-color: #f4f4f9;
+        color: #333;
+        border: 1px solid #ddd;
+      }
+
+      button:last-child:hover {
+        background-color: #e2e2e2;
+      }
+
+      #feedbackStatus {
+        color: green;
+        font-size: 0.9em;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      /* Overlay */
+      #feedbackOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="feedbackPopup">
+      <h3>Send Feedback</h3>
+      <div>
+        <input
+          type="text"
+          id="feedbackName"
+          placeholder="Your name (optional)"
+        />
+        <textarea
+          id="feedbackMessage"
+          placeholder="Your feedback..."
+          rows="5"
+        ></textarea>
+      </div>
+      <div class="button-container">
+        <button onclick="submitFeedback()">Submit</button>
+        <button onclick="closeFeedbackPopup()">Cancel</button>
+      </div>
+      <p id="feedbackStatus"></p>
+    </div>
+
+    <!-- Overlay -->
+    <div id="feedbackOverlay" onclick="closeFeedbackPopup()"></div>
+
+    <script>
+      function openFeedbackPopup() {
+        document.getElementById("feedbackPopup").style.display = "block";
+        document.getElementById("feedbackOverlay").style.display = "block";
+      }
+
+      function closeFeedbackPopup() {
+        document.getElementById("feedbackPopup").style.display = "none";
+        document.getElementById("feedbackOverlay").style.display = "none";
+        document.getElementById("feedbackStatus").textContent = "";
+        window.close();
+      }
+
+      function submitFeedback() {
+        const name = document.getElementById("feedbackName").value.trim();
+        const message = document.getElementById("feedbackMessage").value.trim();
+
+        if (!message) {
+          document.getElementById("feedbackStatus").textContent =
+            "Please enter your feedback.";
+          return;
+        }
+
+        fetch("http://localhost:3000/api/feedback/save", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, message }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("feedbackStatus").textContent =
+              "Thanks for your feedback!";
+            document.getElementById("feedbackName").value = "";
+            document.getElementById("feedbackMessage").value = "";
+            setTimeout(closeFeedbackPopup, 1500);
+          })
+          .catch(() => {
+            document.getElementById("feedbackStatus").textContent =
+              "Something went wrong. Try again.";
+          });
+      }
+    </script>
+  </body>
+</html>
